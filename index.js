@@ -8,8 +8,11 @@
  * Email: 1665169869@qq.com
  */
 
-import axios from 'axios'
-import CryptoJS from 'crypto-js';
+
+const axios = require('axios');
+const CryptoJS = require('crypto-js');
+// import axios from 'axios'
+// import CryptoJS from 'crypto-js';
 
 const USERS = [
   {
