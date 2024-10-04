@@ -206,7 +206,7 @@ const getEncryptKey = async (cookie) => {
   USERS.forEach(user => {
     console.log("正在登录用户", user.user_account);
 
-    login({ "psw": "2003055153", "user_account": "2003055153" })
+    login({ "psw": user.psw, "user_account": user.user_account })
       .then(async cookieObject => {
         console.log('登录成功', cookieObject.loginUserName);
 
