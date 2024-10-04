@@ -207,8 +207,8 @@ const getEncryptKey = async (cookie) => {
 
 
 (async () => {
-  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, 1000));
-  
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
   for (const user of USERS) {
     console.log("正在登录用户", user.user_account);
     try {
