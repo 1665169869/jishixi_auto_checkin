@@ -205,28 +205,32 @@ const getEncryptKey = async (cookie) => {
   return [...Object.entries(getSetCookieNameAndValue(res.headers['set-cookie'][0]))[0]];
 }
 
+
 (async () => {
-  USERS.forEach(user => {
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, 1000));
+  
+  for (const user of USERS) {
     console.log("正在登录用户", user.user_account);
+    try {
+      const cookieObject = await login({ "psw": user.psw, "user_account": user.user_account });
+      console.log('登录成功', cookieObject.loginUserName);
 
-    login({ "psw": user.psw, "user_account": user.user_account })
-      .then(async cookieObject => {
-        console.log('登录成功', cookieObject.loginUserName);
+      let cookie = "";
+      for (const key in cookieObject) {
+        cookie += `${key}=${cookieObject[key]}; `
+      }
 
-        let cookie = "";
-        for (const key in cookieObject) {
-          cookie += `${key}=${cookieObject[key]}; `
-        }
+      const [key, keyValue] = await getEncryptKey(cookie)
 
-        const [key, keyValue] = await getEncryptKey(cookie)
+      await SaveWriteLog(cookie, key, keyValue);
+    } catch (err) {
+      console.log(user, '登录失败');
+      console.log(err);
+    }
 
-        SaveWriteLog(cookie, key, keyValue);
-      })
-      .catch(err => {
-        console.log(user, '登录失败');
-        console.log(err);
-      })
-  });
+    await sleep(2000);
+
+  }
 })()
 
 
